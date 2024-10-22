@@ -56,15 +56,15 @@
 //ボタン長押し時の入力される時間
 #define LONG_PUSH_TO_TIME 100
 
-//Beep音の長さ　(ボタンを押したときの長さ)
-#define BEEP_PUSH_TIME 50
+//Beep音の長さ　(ボタンを押したときの長さや終了時のピッ音の長さ)
+#define BEEP_PUSH_TIME 80
 
 //BEEP音の高さ
 #define BEEP_FREQ 2000
 
-//ピッピッピッのピの間隔
+//終了時のピッピッピッピッのピの間隔
 #define END_BEEP_INTERVAL 130
-//ピッピッピッの全体の時間
+//終了時のピッピッピッの全体の時間 (ならない時間も含む)
 #define END_BEEP_LEN 1000
 
 //FASTボタン長押し判定時間
@@ -74,9 +74,11 @@
 //60秒でスリープに移行
 #define SLEEP_TIME 60000
 
+//FAST用に使用するFLASHアドレス (基本変更しない)
 #define FAST1_TIME_ADRESS 0x08003FC0
 #define FAST2_TIME_ADRESS 0x08003FC2
 
+//フラッシュ関連
 void FLASH_write(volatile uint32_t Address, volatile uint16_t Data);
 uint16_t FLASH_read(volatile uint32_t Address);
 void FLASH_Erase(volatile uint32_t Address);

@@ -452,7 +452,7 @@ int main(void) {
             if(sw_ss_first == 1) {
                 sw_ss_first = 0;
                 beep(BEEP_FREQ,BEEP_PUSH_TIME);
-                mode = MODE_TIMER; //カウント開始
+                mode = MODE_TIMER; //Timerカウント開始
                 cnt_time = 0;
                 timer_sec_half = 0;
             }
@@ -476,6 +476,7 @@ int main(void) {
                 g_seg_val = 0; //seg滅
             }
 
+            //音処理
             if(cnt_time_beep < END_BEEP_INTERVAL && beep_cnt == 0) {
                 beep_cnt = 1;
                 beep(BEEP_FREQ, BEEP_PUSH_TIME);
@@ -564,7 +565,7 @@ int main(void) {
             if(sw_ss_first == 1) {
                 sw_ss_first = 0;
                 beep(BEEP_FREQ,BEEP_PUSH_TIME);
-                mode = MODE_STOPWATCH; //カウント開始
+                mode = MODE_STOPWATCH; //STOPWATCHカウント開始
                 cnt_time = 0;
                 timer_sec_half = 0;
             }
@@ -582,14 +583,14 @@ int main(void) {
                 cnt_time = 0;
                 break; //MODE_SLEEP
             case MODE_SLEEP_END:
-                //ボタンを離すまで、ここで待機
+                //SWボタンを離すまで、ここで待機
                 //20ms待つ
                 if(cnt_time >= 20){
-                    //すべてのボタンが離されたら
+                    //SWがすべて離されたら
                     if(sw_min_val == 0 && sw_sec_val == 0 && sw_ss_val == 0){
                         mode = TIME_PUSH_SET;
 
-                        //離しても反応しないように
+                        //SWを離しても反応しないように
                         sw_min_first = 0;
                         sw_sec_first = 0;
                         sw_ss_first = 0;
@@ -617,7 +618,7 @@ void Standby_init(void) {
 //Standbyはイベントで解除
 void Standby(void) {
 
-    //少しでも消費電力を削減するため、ハイインピーダンスに
+    //sleep 少しでも消費電力を削減するため、ハイインピーダンスに
     pinMode(SEG_CA1,INPUT);
     pinMode(SEG_CA2,INPUT);
     pinMode(SEG_CA3,INPUT);
@@ -635,7 +636,7 @@ void Standby(void) {
     __WFE();
     //NVIC->SCTLR &= ~(1 << 1);
 
-    //元に戻す
+    //pinModeをもとに戻す
     pinMode(SEG_CA1, OD_OUTPUT);
     pinMode(SEG_CA2, OD_OUTPUT);
     pinMode(SEG_CA3, OUTPUT);
