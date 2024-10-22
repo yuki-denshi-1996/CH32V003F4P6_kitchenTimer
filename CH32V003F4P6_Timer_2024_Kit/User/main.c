@@ -364,6 +364,7 @@ int main(void) {
                 sw_fast2_first = 0;
                 uint16_t tmp_eeprom_data = (timer_min * 100) + timer_sec;
                 uint16_t tmp_fast1 = FLASH_read(FAST1_TIME_ADRESS);
+                FLASH_Erase(FAST1_TIME_ADRESS);
                 FLASH_write(FAST2_TIME_ADRESS, tmp_eeprom_data);
                 FLASH_write(FAST1_TIME_ADRESS, tmp_fast1);
                 beep(BEEP_FREQ, BEEP_PUSH_TIME);
