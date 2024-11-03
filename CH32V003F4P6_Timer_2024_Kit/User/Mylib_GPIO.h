@@ -1,4 +1,9 @@
 /*
+* SPDX-FileCopyrightText: 2024 yuki-denshi-1996 <matsukawa.software@gmail.com>
+* SPDX-License-Identifier: BSD 3-Clause
+*/
+
+/*
  * CH32V003F4P6用（CH32V003)GPIO操作ライブラリ
  * Mylib_GPIO.h
  *

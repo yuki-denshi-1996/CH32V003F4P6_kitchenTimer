@@ -1,3 +1,8 @@
+/*
+* SPDX-FileCopyrightText: 2024 yuki-denshi-1996 <matsukawa.software@gmail.com>
+* SPDX-License-Identifier: BSD 3-Clause
+*/
+
 #include "Timer_2024_Kit.h"
 #include <ch32v00x.h>
 #include "Mylib_GPIO.h"

@@ -1,4 +1,9 @@
 /*
+* SPDX-FileCopyrightText: 2024 yuki-denshi-1996 <matsukawa.software@gmail.com>
+* SPDX-License-Identifier: BSD 3-Clause
+*/
+
+/*
  * Mylib_Sleep.c
  *
  *  Created on: Oct 9, 2024

@@ -1,4 +1,9 @@
 /*
+* SPDX-FileCopyrightText: 2024 yuki-denshi-1996 <matsukawa.software@gmail.com>
+* SPDX-License-Identifier: BSD 3-Clause
+*/
+
+/*
  * Pin.h
  *
  *  Created on: Sep 22, 2024
