@@ -3,28 +3,75 @@
  SPDX-License-Identifier: BSD 3-Clause
 --->
 # 目次
-- [目次](#目次)
-- [はじめに](#はじめに)
-- [ライセンス](#ライセンス)
-- [連絡先](#連絡先)
-- [GPIO\_mylib](#gpio_mylib)
-  - [void GPIOA\_init(), GPIOB\_init(), GPIOC\_init(), GPIOD\_init()](#void-gpioa_init-gpiob_init-gpioc_init-gpiod_init)
-  - [int GPIO\_output\_speed(int speed)](#int-gpio_output_speedint-speed)
-  - [void pinMode(int Pin, int val)](#void-pinmodeint-pin-int-val)
-  - [unsigned char digitalRead(int Pin);](#unsigned-char-digitalreadint-pin)
-  - [void digitalWrite(int Pin, int val)](#void-digitalwriteint-pin-int-val)
+
 
 # はじめに
-このプロジェクトはCH32V003F4P6用のライブラリです。<BR>
-<BR>
-MounRiver Studio標準コンパイラ (ライブラリシステム)で実行できるようになっています。<BR>
-main.cに参考プログラムが書かれています。<BR>
-<BR>
-Userディレクトリの中に <BR> 
-Mylib_XXXXX.h, <BR>
-Mylib_XXXXX.c <BR>
-というファイルが入っています。<BR>
-使用する場合は、それぞれのソースファイルをインポートしてください。<BR>
+これはCH32V003F4P6でタイマーを作ろうというプロジェクトです。<BR>
+
+# gitのディレクトリ構成
+CH32V003F4P6_Timer_2024_Kit ディレクトリにプログラムが入っています。MounRiver Studioにて開発しています。プロジェクトごと読み込んでください。<BR>
+timer_V1 ディレクトリに基板データが入っています。KiCad 8.0で設計しています。timer_V1.kicad_pro を読み込んでください。<BR>
+
+# 基板に使用した部品等
+ここに出しているものは、あくまでも推奨しているものです。自由に変更していただいて構いません。<BR>
+ここに書いているものは、すべて秋月電子通商様で購入できる部品となっています。<BR>
+|   部品番号  |  部品名   |  リンク   | 備考|
+| --- | --- | --- | ---|
+| BZ1  |  圧電スピーカー   |  https://akizukidenshi.com/catalog/g/g104118/   | |
+|    C1 |   セラミックコンデンサ 0.1uF  | https://akizukidenshi.com/catalog/g/g113582/  |  |
+|     D1|   SBD  |   https://akizukidenshi.com/catalog/g/g116384/  |  |
+| F1  |   リセッタブルヒューズ  |  https://akizukidenshi.com/catalog/g/g101354/   | |
+|  J2  |   電源コネクタ (XH-2コネクタ)  |  https://akizukidenshi.com/catalog/g/g112247/   |  |
+|  Q1-Q4   |   DTA123E (デジタルトランジスタ)  |  https://akizukidenshi.com/catalog/g/g112465/   |  |
+| R1-R8, R10 |   抵抗 1kΩ (1/6Wサイズ)  |  https://akizukidenshi.com/catalog/g/g116102/   | |
+|    SW1-SW6 |   タクトスイッチ  | https://akizukidenshi.com/catalog/g/g101282/    |  |
+|     U2|  E40364-IFOW (時計用7セグメントLED)   |   https://akizukidenshi.com/catalog/g/g114426/  |  |
+| U3  |   CH32V003F4P6 (マイコン)  |  https://akizukidenshi.com/catalog/g/g118061/   | |
+
+# 標準プログラムでの使い方
+ここでは、プログラムを改変していないことを前提条件として、使い方を記します。<BR>
+
+電源を入れ、ボタン(MIN, SEC)で、分や秒を指定します。設定したい時間になったら、START/STOPボタンを押して、タイマーをスタートさせます。指定時間経過すると、ピピピッという音でお知らせします。<BR>
+
+このタイマーにはFASTと呼ばれる機能がついています。<BR>
+FASTボタンを押すことで、指定した時間にセットすることができます。<BR>
+
+記録したい時間を指定し、それぞれのFASTボタンを長押しすると、ピッという音とともに、記録されます。<BR>
+FASTボタンは FAST1 / FAST2の2つがあります。2つの時間を記録可能です。<BR>
+
+時間を0分0秒でSTART/STOPボタンを押すと、ストップウォッチとして機能します。<BR>
+
+時間を0分0秒に戻す場合は、MINボタンとSECボタンを同時に押してください。<BR>
+
+
+# プログラムの変更
+使用するピンは、圧電スピーカーが接続されているピン(PC5)を除き、自由に変更できます。<BR>
+変更する場合は、プログラムソースにあるUser/Timer_2024_Kit.hの宣言を変更してください。<BR>
+
+````diff
+//PIN定義
+-#define SEG_A PC2
++#define SEG_A PD1
+#define SEG_B PC4
+#define SEG_C PD3
+#define SEG_D PC7
+#define SEG_E PC6
+#define SEG_F PC3
+#define SEG_G PD4
+#define SEG_DOT PD2
+````
+
+注意：PA1, PA2はプッシュプル出力/(プルアップ・プルダウンを使用しない)入力のみ可能です。基本的には変更しないことをおすすめします。
+
+また、タイマーのビープ音は、Timer_2024_Kit.hのBEEP_FREQで変更できます。使用したい周波数を入れてください。
+````diff
+//BEEP音の高さ
+-#define BEEP_FREQ 2000
++#define BEEP_FREQ 2500 //2500Hzに設定
+````
+その他、細かい設定もTimer_2024_Kit.hにて変更可能です。
+
+# 
 
 # ライセンス
 このプログラムにはBSD 3-Clauseライセンスが適用されています。<BR>
@@ -35,101 +82,6 @@ Mylib_XXXXX.c <BR>
 ライセンス・再配布・その他問い合わせについては、下のメールアドレスまたはGoogle Formからどうぞ。<BR>
 <BR>
 メールアドレス:matsukawa.software＠gmail.com (アットマークを半角にしてください)<BR>
-[Google Form お問い合わせフォーム](https://denshi1996.com/?page_id=68#toc1)
+[Google Form お問い合わせフォーム](https://denshi1996.com/?page_id=68#toc1)<BR>
 
-# GPIO_mylib
-GPIO関連のライブラリです。
-## void GPIOA_init(), GPIOB_init(), GPIOC_init(), GPIOD_init()
-GPIOxの初期化をします。各ポート操作をする前に実行します。<BR>
-
-|        |         |  役割  |   定数|
-| ------ | ------ | ------ | ------|
-| 引数   | なし    |        |       |
-| 戻り値 | なし    |        |       |
-|        |        |       |        |
-## int GPIO_output_speed(int speed)
-GPIOの出力速度を指定します。初期値は2MHzに設定されています。
-|        |         |  役割  |   定数|
-| ------ | ------ | ------ | ------|
-| 引数   |  speed    |   出力速度指定     |  OUTPUT_2MHz , OUTPUT_10MHz , OUTPUT_50MHz   |
-| 戻り値 |  int型    |   引数を記憶し、それらの値を返却します    |    OUTPUT_2MHz , OUTPUT_10MHz , OUTPUT_50MHz   |
-|        |        |       |        |
-
-```
-//出力速度を50MHzに設定
-GPIO_ouptut_speed(OUTPUT_50Mhz);
-```
-
-## void pinMode(int Pin, int val)
-GPIOの入出力を設定します。
-|        |         |  役割  |   定数|
-| ------ | ------ | ------ | ------|
-| 引数   |  Pin    |   ピン指定    |  PxY (例：PA0, PB1, PC2, PD3)   |
-|  |  val    |   GPIOの設定を指定    |    INPUT , INPUT_PULLUP , INPUT_PULLDOWN , INPUT_ANALOG , OUTPUT , OUTPUT_OPENDRAIN , OUTPUT_FUNC , OUPTUT_OPENDRAIN_FUNC  |
-|    戻り値   |   なし     |       |        |
-||||
-
-|    定数名    |    役割     |
-| ------ | ------ |
-| INPUT  | 入力設定    | 
-| INPUT_PULLUP | 内部プルアップを有効にした入力    |
-|   INPUT_PULLDOWN     |    内部プルダウンを有効にした入力    |  
-| INPUT_ANALOG  |アナログ入力(ADC)  | 
-| OUTPUT | プッシュプル出力   |
-|   OUTPUT_OPENDRAIN     |     オープンドレイン出力   |  
-| OUTPUT_FUNC  | 別ペリフェラルからのプッシュプル出力(例:PWM)  | 
-| OUTPUT_OPENDRAIN_FUNC | 別ペリフェラルからのオープンドレイン出力(例:PWM, I2C)    |
-||| 
-
-```
-//PA1を出力に設定
-pinMode(PA1, OUTPUT);
-//PC0をプルアップ入力に設定
-pinMode(PC0, INPUT_PULLUP);
-```
-
-## unsigned char digitalRead(int Pin);
-指定したピンから、入力値を返します。 <BR>
-（事前に、pinMode等で入力設定にしてください）
-|        |         |  役割  |   定数|
-| ------ | ------ | ------ | ------|
-| 引数   | Pin    |    ピン指定   |  PxY(例:PA0, PB1, PC2, PD3)     |
-| 戻り値 | unsigned char    |   GPIOの状態     |   1 or 0 <BR>(存在しないピンを指定した場合 0xFFが返されます)    |
-|        |        |       |        |
-
-```
-//PA1をプルアップ入力に
-pinMode(PA1, INPUT_PULLUP);
-
-//PA0が0だったら
-if(digitalRead(PA1) == 0){
-    //PA2を1に
-    digitalWrite(PA2, 1);
-}
-```
-
-## void digitalWrite(int Pin, int val)
-指定したピンの出力を変更します。<BR>
-（事前にpinMode等で出力設定にしてください）
-
-|        |         |  役割  |   定数|
-| ------ | ------ | ------ | ------|
-| 引数   | Pin    |   ピン指定     |   PxY(例:PA0, PB1, PC2, PD3)     |
-|       |  val    |   GPIOの状態を指定   |  1 or 0    |
-| 戻り値 | なし    |        |       |
-|        |        |       |        |
-
-
-|     pinMode   |   val    |  GPIOの状態  | 
-| ------ | ------ | ------ |
-| OUTPUT |  1  |    電源電圧 VDD (実際にはVDD - 0.4 [V]以上)    |       
-| | 0  |    0[V] (実際は0.4[V]未満)    |      
-|   OUTPUT_OPENDRAIN     |   1     |    0[V] (実際には0.4[V]未満)   |   
-|       |   0    |  　オープン (ハイインピーダンス)    |   
-
-```
-//PA1を1(VDD)にする
-digitalWrite(PA1, 1);
-//PA2を0(0V)にする
-digitalWrite(PA2, 0);
-```
+©️2024 - Yuki (denshi-1996) 以上
