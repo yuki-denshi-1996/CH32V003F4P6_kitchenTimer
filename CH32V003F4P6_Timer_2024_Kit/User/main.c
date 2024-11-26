@@ -1,7 +1,7 @@
 /*
-* SPDX-FileCopyrightText: 2024 yuki-denshi-1996 <matsukawa.software@gmail.com>
-* SPDX-License-Identifier: BSD 3-Clause
-*/
+ * SPDX-FileCopyrightText: 2024 yuki-denshi-1996 <matsukawa.software@gmail.com>
+ * SPDX-License-Identifier: BSD 3-Clause
+ */
 
 #include "Timer_2024_Kit.h"
 #include <ch32v00x.h>
@@ -76,7 +76,7 @@ int main(void) {
     eventGPIO(SW_SEC, EVENT_FALL);
     eventGPIO(SW_START_STOP, EVENT_FALL);
 
-    // フラッシュメモリが初期値の場合、リセット
+    // aフラッシュメモリが初期値の場合、リセット
     if (FLASH_read(FAST1_TIME_ADRESS) == 0xFFFF) {
         FLASH_write(FAST1_TIME_ADRESS, 0);
     }
@@ -124,7 +124,7 @@ int main(void) {
         static int long_sw_min_val = 0, long_sw_sec_val = 0, long_sw_ss_val = 0, long_sw_fast1_val = 0, long_sw_fast2_val = 0;//a長押しされたら1に
         static int sw_min_tmp = 0, sw_sec_tmp = 0, sw_ss_tmp = 0, sw_fast1_tmp = 0, sw_fast2_tmp = 0;//a一時的に記憶
         static int beep_cnt = 0;//END時にBEEP音がどこでなっているのか記憶する用
-        static int start_min = 0, start_sec = 0; //終了時に開始したときの時間を覚えておくように
+        static int start_min = 0, start_sec = 0;//終了時に開始したときの時間を覚えておくように
 
         //SW_MIN スイッチ用プログラム
         if(digitalRead(SW_MIN) == 0) {
@@ -375,7 +375,7 @@ int main(void) {
                 beep(BEEP_FREQ, BEEP_PUSH_TIME);
             }
 
-            if(cnt_sleep >= SLEEP_TIME){
+            if(cnt_sleep >= SLEEP_TIME) {
                 mode = MODE_SLEEP;
             }
 
@@ -581,27 +581,27 @@ int main(void) {
             break;//MODE_STOPWATCH_STOP
 
             case MODE_SLEEP:
-                g_seg_val = 0; //segmentのLED消灯
-                Standby(); //sleep
-                cnt_sleep = 0;
-                mode = MODE_SLEEP_END;
-                cnt_time = 0;
-                break; //MODE_SLEEP
+            g_seg_val = 0;//segmentのLED消灯
+            Standby();//sleep
+            cnt_sleep = 0;
+            mode = MODE_SLEEP_END;
+            cnt_time = 0;
+            break;//MODE_SLEEP
             case MODE_SLEEP_END:
-                //SWボタンを離すまで、ここで待機
-                //20ms待つ
-                if(cnt_time >= 20){
-                    //SWがすべて離されたら
-                    if(sw_min_val == 0 && sw_sec_val == 0 && sw_ss_val == 0){
-                        mode = TIME_PUSH_SET;
+            //SWボタンを離すまで、ここで待機
+            //20ms待つ
+            if(cnt_time >= 20) {
+                //SWがすべて離されたら
+                if(sw_min_val == 0 && sw_sec_val == 0 && sw_ss_val == 0) {
+                    mode = TIME_PUSH_SET;
 
-                        //SWを離しても反応しないように
-                        sw_min_first = 0;
-                        sw_sec_first = 0;
-                        sw_ss_first = 0;
-                    }
+                    //SWを離しても反応しないように
+                    sw_min_first = 0;
+                    sw_sec_first = 0;
+                    sw_ss_first = 0;
                 }
-                break; //MODE_SLEEP_END
+            }
+            break; //MODE_SLEEP_END
         }
 
     }
@@ -615,7 +615,8 @@ void Standby_init(void) {
     RCC->APB2PCENR |= RCC_APB2Periph_AFIO; //AFIO 有効
 
     RCC->RSTSCKR |= RCC_LSION; //LSI有効
-    while((RCC->RSTSCKR & RCC_LSIRDY) == 0); //LSIが有効になるまで
+    while((RCC->RSTSCKR & RCC_LSIRDY) == 0);
+    //LSIが有効になるまで
 }
 
 //Standby実行関数
@@ -624,10 +625,10 @@ void Standby_init(void) {
 void Standby(void) {
 
     //sleep 少しでも消費電力を削減するため、ハイインピーダンスに
-    pinMode(SEG_CA1,INPUT);
-    pinMode(SEG_CA2,INPUT);
-    pinMode(SEG_CA3,INPUT);
-    pinMode(SEG_CA4,INPUT);
+    pinMode(SEG_CA1, INPUT);
+    pinMode(SEG_CA2, INPUT);
+    pinMode(SEG_CA3, INPUT);
+    pinMode(SEG_CA4, INPUT);
 
     //StandByモード
     PWR->CTLR &= ~PWR_CTLR_PDDS;

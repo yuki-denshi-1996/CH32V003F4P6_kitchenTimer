@@ -1449,8 +1449,8 @@ OUTPUT(CH32V003F4P6_Timer_2024_Kit.elf elf32-littleriscv)
  .debug_ranges  0x0000000000000250       0xd0 ./Peripheral/src/ch32v00x_rcc.o
 
 .debug_line     0x0000000000000000     0x55d5
- .debug_line    0x0000000000000000      0xf54 ./User/Mylib_GPIO.o
- .debug_line    0x0000000000000f54      0x5ba ./User/Mylib_Timer.o
+ .debug_line    0x0000000000000000      0xf55 ./User/Mylib_GPIO.o
+ .debug_line    0x0000000000000f55      0x5b9 ./User/Mylib_Timer.o
  .debug_line    0x000000000000150e      0x50e ./User/Timer_2024_Kit.o
  .debug_line    0x0000000000001a1c      0x273 ./User/ch32v00x_it.o
  .debug_line    0x0000000000001c8f     0x220e ./User/main.o
@@ -1458,22 +1458,22 @@ OUTPUT(CH32V003F4P6_Timer_2024_Kit.elf elf32-littleriscv)
  .debug_line    0x0000000000004619      0x112 ./Startup/startup_ch32v00x.o
  .debug_line    0x000000000000472b      0xeaa ./Peripheral/src/ch32v00x_rcc.o
 
-.debug_str      0x0000000000000000     0x111d
+.debug_str      0x0000000000000000     0x118d
  .debug_str     0x0000000000000000      0x6c1 ./User/Mylib_GPIO.o
                                         0x759 (size before relaxing)
  .debug_str     0x00000000000006c1      0x348 ./User/Mylib_Timer.o
                                         0x9c1 (size before relaxing)
  .debug_str     0x0000000000000a09       0x78 ./User/Timer_2024_Kit.o
                                         0x677 (size before relaxing)
- .debug_str     0x0000000000000a81       0x34 ./User/ch32v00x_it.o
+ .debug_str     0x0000000000000a81       0xa4 ./User/ch32v00x_it.o
                                         0x5ec (size before relaxing)
- .debug_str     0x0000000000000ab5      0x26a ./User/main.o
+ .debug_str     0x0000000000000b25      0x26a ./User/main.o
                                         0xcaf (size before relaxing)
- .debug_str     0x0000000000000d1f       0xa6 ./User/system_ch32v00x.o
+ .debug_str     0x0000000000000d8f       0xa6 ./User/system_ch32v00x.o
                                         0x77e (size before relaxing)
- .debug_str     0x0000000000000dc5       0x2a ./Startup/startup_ch32v00x.o
+ .debug_str     0x0000000000000e35       0x2a ./Startup/startup_ch32v00x.o
                                          0x9a (size before relaxing)
- .debug_str     0x0000000000000def      0x32e ./Peripheral/src/ch32v00x_rcc.o
+ .debug_str     0x0000000000000e5f      0x32e ./Peripheral/src/ch32v00x_rcc.o
                                         0x9e7 (size before relaxing)
 
 .comment        0x0000000000000000       0x33
